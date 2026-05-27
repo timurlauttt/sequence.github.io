@@ -229,6 +229,19 @@
         <div class="toc">
             <h2>🎨 Legenda & Panduan Membaca</h2>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">📁 Kategori Diagram</h3>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <p style="margin: 8px 0;"><strong>✅ Existing (8 diagram)</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Workflow sistem yang sudah ada di aplikasi</span></p>
+                        
+                        <p style="margin: 8px 0;"><strong>🤖 ML Integration (2 diagram)</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Workflow dengan integrasi Machine Learning SVM</span></p>
+                        
+                        <p style="margin: 8px 0;"><strong>✨ Kategori A (5 diagram)</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Workflow kritis untuk kebutuhan skripsi</span></p>
+                    </div>
+                </div>
                 
                 <div>
                     <h3 style="color: #667eea; margin-bottom: 10px;">🎯 Elemen Diagram</h3>
@@ -467,21 +480,19 @@ sequenceDiagram
     API-->>-UI: List pembayaran pending
     UI-->>-S: Tampilkan daftar pembayaran
     
-    S->>+UI: Review bukti bayar + klik Approve/Reject
+    S->>UI: Review bukti bayar
     alt Approve Payment
-        UI->>+API: PATCH /orders/{id}/verify-payment
-        API->>+API: Calculate payment_difference
-        API->>+O: Update payment_status="verified"
-        O-->>-API: OK
-        API-->>-API: Determine status (HUTANG/TABUNGAN/LUNAS)
-        API-->>-UI: 200 OK + Status
-        UI-->>-S: Notifikasi "Pembayaran diverifikasi"
-    else Reject Payment
-        UI->>+API: PATCH /orders/{id}/reject-payment
-        API->>+O: Update payment_status="rejected"
-        O-->>-API: OK
+        S->>+UI: Klik Approve
+        UI->>+API: PATCH /orders/{id}/verify
+        API->>O: Update payment verified
         API-->>-UI: 200 OK
-        UI-->>-S: Notifikasi "Pembayaran ditolak"
+        UI-->>-S: Approved
+    else Reject Payment
+        S->>+UI: Klik Reject
+        UI->>+API: PATCH /orders/{id}/reject
+        API->>O: Update rejected
+        API-->>-UI: 200 OK
+        UI-->>-S: Rejected
     end
                     </div>
                 </div>
@@ -1195,6 +1206,14 @@ sequenceDiagram
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>UD Suwara Jaya - Sistem Manajemen Distribusi & Pengiriman Barang</strong></p>
+            <p>✅ Sequence Diagrams dengan ML Integration | 15 Total Diagrams</p>
+            <p>✅ 8 Existing + 2 ML Critical + 5 Kategori A Workflows</p>
+            <p>✅ Semua diagram dengan activation boxes (actor lifecycle bars)</p>
+            <p style="font-size: 0.9em; margin-top: 10px; color: #999;">Last Updated: 27 May 2026</p>
         </div>
     </div>
     
