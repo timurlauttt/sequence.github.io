@@ -798,12 +798,114 @@ sequenceDiagram
                     <span class="diagram-number">11</span>
                     Order Verification Flow (Admin Verifikasi Order)
                 </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor A as Admin
+    actor K as Konsumen
+    participant UI as Web UI
+    participant API as Backend
+    participant O as Orders
+    
+    note over A,O: REVIEW PESANAN BARU
+    A->>+UI: Buka "Verifikasi Order"
+    UI->>+API: GET /admin/orders?status=pending
+    API->>+O: Query pending orders
+    O-->>-API: Pending list
+    API-->>-UI: List pending orders
+    UI-->>-A: Tampilkan tabel
+    
+    note over A,O: DETAIL PESANAN
+    A->>+UI: Klik detail order
+    UI->>+API: GET /admin/orders/{id}
+    API->>+O: Query order
+    O-->>-API: Order data
+    API-->>-UI: Order details
+    UI-->>-A: Tampilkan detail
+    
+    note over A,O: VERIFIKASI
+    A->>+UI: Review pesanan
+    alt Data valid
+        A->>+UI: Klik "Approve"
+        UI->>+API: PATCH /admin/orders/{id}/verify
+        API->>+O: Update verified
+        O-->>-API: OK
+        API-->>-UI: 200 OK
+        UI-->>-A: "Approved"
+    else Data error
+        A->>+UI: Klik "Reject"
+        UI->>+API: PATCH /admin/orders/{id}/reject
+        API->>+O: Update rejected
+        O-->>-API: OK
+        API-->>-UI: 200 OK
+        UI-->>-A: "Rejected"
+    end
+    
+    note over A,K: NOTIFIKASI
+    API->>K: Notification
+                    </div>
+                </div>
             </div>
             
             <div id="diagram12" class="diagram-item">
                 <div class="diagram-title">
                     <span class="diagram-number">12</span>
                     Complete Delivery Confirmation (Konfirmasi Penerimaan)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor K as Konsumen
+    actor S as Supir
+    participant UI as Web UI
+    participant API as Backend
+    participant O as Orders
+    
+    note over S,O: SUPIR SAMPAI
+    S->>+UI: Input lokasi sampai
+    UI->>+API: POST /orders/{id}/arrival
+    API->>+O: Update arrival_time
+    O-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-S: Notifikasi diterima
+    
+    note over K,O: KONSUMEN TERIMA
+    K->>+UI: Buka "Pesanan Saya"
+    UI->>+API: GET /konsumen/orders?status=arriving
+    API->>+O: Query arriving
+    O-->>-API: Orders list
+    API-->>-UI: List orders
+    UI-->>-K: Tampilkan pesanan
+    
+    K->>+UI: Input berat diterima
+    UI->>+API: POST /orders/{id}/received
+    API->>+O: Update quantity_received
+    O-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-K: Detail terima
+    
+    note over K,S: KONFIRMASI
+    S->>+UI: Refresh pesanan
+    UI->>+API: GET /orders/{id}
+    API->>+O: Query order
+    O-->>-API: Updated
+    API-->>-UI: Status
+    UI-->>-S: Tampilkan
+    
+    S->>+UI: Klik "Konfirmasi Terima"
+    UI->>+API: PATCH /orders/{id}/confirm-received
+    API->>+O: Update received
+    O-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-S: Confirmed
+    
+    K->>+UI: Refresh
+    UI->>+API: GET /konsumen/orders/{id}
+    API->>+O: Query order
+    O-->>-API: Status
+    API-->>-UI: Updated
+    UI-->>-K: "Diterima"
+                    </div>
                 </div>
             </div>
             
@@ -812,6 +914,74 @@ sequenceDiagram
                     <span class="diagram-number">13</span>
                     Pickup/Load Management (Manajemen Pengambilan Muatan)
                 </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor A as Admin
+    actor S as Supir
+    participant UI as Web UI
+    participant API as Backend
+    participant P as Pengambilan
+    
+    note over A,P: SIAPKAN MUATAN
+    A->>+UI: Buka "Manajemen Muatan"
+    UI->>+API: GET /admin/pengambilan?tanggal={date}
+    API->>+P: Query pengambilan
+    P-->>-API: List
+    API-->>-UI: Pengambilan list
+    UI-->>-A: Tampilkan list
+    
+    A->>+UI: Klik "Siapkan Muatan"
+    alt Ready
+        A->>+UI: Klik "Ready"
+        UI->>+API: PATCH /pengambilan/{id}/ready
+        API->>+P: Update ready
+        P-->>-API: OK
+        API-->>-UI: 200 OK
+        UI-->>-A: "Siap"
+    else Problem
+        A->>+UI: Update catatan
+        UI->>+API: PATCH /pengambilan/{id}
+        API->>+P: Update notes
+        P-->>-API: OK
+        API-->>-UI: 200 OK
+        UI-->>-A: Updated
+    end
+    
+    note over S,P: SUPIR AMBIL
+    S->>+UI: Buka "Muatan Saya"
+    UI->>+API: GET /supir/pengambilan
+    API->>+P: Query pengambilan
+    P-->>-API: List
+    API-->>-UI: List
+    UI-->>-S: Tampilkan
+    
+    S->>+UI: Klik "Ambil Muatan"
+    UI->>+API: POST /pengambilan/{id}/pickup
+    API->>+P: Insert pickup
+    P-->>-API: pengambilan_id
+    API-->>-UI: 201 Created
+    UI-->>-S: "Diambil"
+    
+    note over S,P: INPUT BERAT
+    S->>+UI: Input berat aktual
+    UI->>+API: PATCH /pengambilan/{id}/weight
+    API->>+P: Update weight
+    P-->>-API: OK
+    API->>+API: Calculate susut
+    API-->>-API: Done
+    API-->>-UI: 200 OK
+    UI-->>-S: "Tercatat"
+    
+    note over A,S: VERIFIKASI
+    A->>+UI: Refresh list
+    UI->>+API: GET /admin/pengambilan?status=loaded
+    API->>+P: Query loaded
+    P-->>-API: List
+    API-->>-UI: Loaded
+    UI-->>-A: Tampilkan
+                    </div>
+                </div>
             </div>
             
             <div id="diagram14" class="diagram-item">
@@ -819,12 +989,161 @@ sequenceDiagram
                     <span class="diagram-number">14</span>
                     End-to-End Order Fulfillment Cycle (Siklus Lengkap)
                 </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor K as Konsumen
+    actor S as Supir
+    actor A as Admin
+    participant UI as Web UI
+    participant API as Backend
+    participant DB as Database
+    
+    note over K,DB: PEMESANAN
+    K->>+UI: Buat pesanan
+    UI->>+API: POST /orders
+    API->>+DB: Insert order
+    DB-->>-API: order_id
+    API-->>-UI: 201 Created
+    UI-->>-K: "Dibuat"
+    
+    note over A,DB: VERIFIKASI
+    A->>+UI: Verifikasi order
+    UI->>+API: PATCH /orders/{id}/verify
+    API->>+DB: Update verified
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-A: "Verified"
+    
+    note over S,DB: PENGAMBILAN
+    S->>+UI: Input pengambilan
+    UI->>+API: POST /pengambilan
+    API->>+DB: Insert pengambilan
+    DB-->>-API: pengambilan_id
+    API-->>-UI: 201 Created
+    UI-->>-S: "Tercatat"
+    
+    note over S,K: PENGIRIMAN
+    S->>+UI: Mulai pengiriman
+    UI->>+API: PATCH /orders/{id}/shipping
+    API->>+DB: Update shipping
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-S: "Shipping"
+    
+    S->>+UI: Sampai lokasi
+    UI->>+API: POST /orders/{id}/arrival
+    API->>+DB: Update arrival
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-S: Sampai
+    
+    K->>+UI: Terima barang
+    UI->>+API: PATCH /orders/{id}/received
+    API->>+DB: Update received
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-K: "Diterima"
+    
+    note over K,DB: PEMBAYARAN
+    K->>+UI: Upload bukti bayar
+    UI->>+API: POST /orders/{id}/payment
+    API->>+DB: Insert payment
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-K: "Terkirim"
+    
+    S->>+UI: Verifikasi bayar
+    UI->>+API: PATCH /orders/{id}/verify-payment
+    API->>+DB: Update verified
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-S: "Verified"
+    
+    note over A,DB: SELESAI
+    A->>+UI: Refresh dashboard
+    UI->>+API: GET /admin/orders?status=completed
+    API->>+DB: Query completed
+    DB-->>-API: List
+    API-->>-UI: List
+    UI-->>-A: "Selesai"
+                    </div>
+                </div>
             </div>
             
             <div id="diagram15" class="diagram-item">
                 <div class="diagram-title">
                     <span class="diagram-number">15</span>
                     Debt Report Generation (Laporan Hutang)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor A as Admin
+    actor K as Konsumen
+    participant UI as Web UI
+    participant API as Backend
+    participant O as Orders
+    
+    note over A,O: GENERATE LAPORAN
+    A->>+UI: Buka "Laporan Hutang"
+    UI->>+API: GET /admin/debt-report
+    API->>+O: Aggregation Pipeline
+    O-->>-API: Debt per konsumen
+    API-->>-UI: Debt report
+    UI-->>-A: Tampilkan tabel
+    
+    note over A,O: DETAIL HUTANG
+    A->>+UI: Klik konsumen
+    UI->>+API: GET /admin/debt-report/{konsumen_id}
+    API->>+O: Query debt orders
+    O-->>-API: Orders
+    API-->>-UI: Detail hutang
+    UI-->>-A: Tampilkan
+    
+    alt Hutang aktif
+        A->>+UI: Pilih action
+        alt Kirim reminder
+            A->>+UI: Klik "Kirim Reminder"
+            UI->>+API: POST /admin/send-reminder
+            API-->>-UI: 200 OK
+            UI-->>-A: Sent
+        else Catat pembayaran
+            A->>+UI: Input pembayaran
+            UI->>+API: POST /admin/payments
+            API->>+O: Update payment
+            O-->>-API: OK
+            API-->>-UI: 200 OK
+            UI-->>-A: Updated
+        end
+    else Hutang lunas
+        A->>+UI: Status lunas
+        UI-->>-A: "Lunas"
+    end
+    
+    note over K,O: KONSUMEN CEK
+    K->>+UI: Buka "Hutang Saya"
+    UI->>+API: GET /konsumen/my-debt
+    API->>+O: Query hutang
+    O-->>-API: Orders
+    API-->>-UI: Debt list
+    UI-->>-K: Tampilkan
+    
+    K->>+UI: Klik order
+    UI->>+API: GET /konsumen/orders/{id}
+    API->>+O: Query order
+    O-->>-API: Detail
+    API-->>-UI: Order detail
+    UI-->>-K: Tampilkan
+    
+    note over A,K: EXPORT
+    A->>+UI: Klik "Export"
+    UI->>+API: GET /admin/debt-report?export=pdf
+    API->>+API: Generate PDF
+    API-->>-API: PDF ready
+    API-->>-UI: Download
+    UI-->>-A: Downloaded
+                    </div>
                 </div>
             </div>
         </div>
