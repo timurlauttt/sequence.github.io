@@ -228,13 +228,6 @@
             <p style="font-size: 0.95em; margin-top: 10px; color: #999;">Sequence Diagrams untuk Skripsi - Dengan ML Integration</p>
         </div>
         
-        <div class="highlight">
-            <strong>✅ Status Update:</strong> Diagram sudah mencakup Machine Learning integration. 
-            <br>• <strong>Diagram 9-10:</strong> Complete transaction flow dengan ML prediction
-            <br>• <strong>Diagram 11-15:</strong> Kategori A detailed workflows
-            <br>Total: <strong>15 Sequence Diagrams</strong> dengan activation boxes yang benar
-        </div>
-        
         <div class="toc">
             <h2>📑 Daftar Diagram Lengkap (15 Total)</h2>
             <div class="toc-cols">
@@ -586,53 +579,47 @@ sequenceDiagram
                     <div class="mermaid">
 sequenceDiagram
     actor A as Admin/SuperAdmin
-    participant UI as Web UI (Laravel Blade)
-    participant API as Backend (Laravel)
-    participant DB as MongoDB
+    participant UI as Web UI
+    participant API as Backend
     participant U as Collection users
     
-    A->>+UI: Buka halaman "Kelola User"
-    UI->>+API: GET /admin/users?role={filter}
+    A->>+UI: Buka "Kelola User"
+    UI->>+API: GET /admin/users
     API->>+U: Query users
     U-->>-API: List users
-    API-->>-UI: List users dengan role & status
+    API-->>-UI: List users
     UI-->>-A: Tampilkan tabel
     
     A->>+UI: Klik "Tambah User Baru"
-    UI-->>-A: Tampilkan form
+    UI-->>-A: Show form
     
-    A->>+UI: Isi form + pilih role + submit
+    A->>+UI: Isi form + submit
     UI->>+API: POST /admin/users
-    
-    API->>+U: Check apakah email sudah terdaftar
-    U-->>-API: Return existing user (jika ada)
-    
-    alt Email sudah terdaftar
+    API->>+U: Check email exists
+    U-->>-API: Check result
+    alt Email ada
         API-->>UI: 409 Conflict
-        UI-->>A: Error "Email sudah terdaftar"
-    else Email belum terdaftar
-        API->>+API: Hash password
-        API->>+U: Insert user baru dengan is_active=true
-        U-->>-API: userId tersimpan
+        UI-->>A: Error message
+    else Email baru
+        API->>+U: Insert user
+        U-->>-API: userId
         API-->>-UI: 201 Created
-        UI-->>-A: Notifikasi "User berhasil ditambahkan"
+        UI-->>-A: User dibuat
     end
     
-    opt Admin edit user
-        A->>+UI: Klik "Edit" pada user
-        UI->>+API: GET /admin/users/{id}
-        API->>+U: Query user by id
-        U-->>-API: User data
-        API-->>-UI: User data
-        UI-->>-A: Tampilkan form edit
-        
-        A->>UI: Update data + submit
-        UI->>+API: PUT /admin/users/{id}
-        API->>+U: Update user
-        U-->>-API: OK
-        API-->>-UI: 200 OK
-        UI-->>-A: Notifikasi "User diupdate"
-    end
+    A->>+UI: Klik "Edit" user
+    UI->>+API: GET /admin/users/{id}
+    API->>+U: Query user
+    U-->>-API: User data
+    API-->>-UI: User data
+    UI-->>-A: Show form
+    
+    A->>+UI: Update + submit
+    UI->>+API: PUT /admin/users/{id}
+    API->>+U: Update user
+    U-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-A: User updated
                     </div>
                 </div>
             </div>
@@ -752,70 +739,52 @@ sequenceDiagram
     participant UI as Web UI
     participant API as Backend
     participant DB as MongoDB
-    participant Flask as Flask ML API<br/>(Python SVM)
+    participant Flask as Flask ML API
     
-    rect rgb(220, 200, 255)
-    note over A,DB: STEP 1: REVIEW TRANSACTIONS
-    A->>+UI: Buka "Laporan Prediksi Transaksi"
-    UI->>+API: GET /admin/transaksi-harian?tanggal={date}
-    API->>+DB: Query transaksi_harian + suhu_harian
+    note over A,DB: REVIEW TRANSACTIONS
+    A->>+UI: Buka "Laporan Prediksi"
+    UI->>+API: GET /admin/transaksi-harian
+    API->>+DB: Query transaksi + suhu
     DB-->>-API: Transactions list
     API-->>-UI: Transaction list
-    UI-->>-A: Tampilkan tabel transaksi
-    end
+    UI-->>-A: Tampilkan tabel
     
-    rect rgb(255, 240, 200)
-    note over A,DB: STEP 2: INPUT SUHU HARIAN
-    A->>+UI: Cek suhu
-    alt Suhu BELUM ada
+    note over A,DB: INPUT SUHU HARIAN
+    A->>+UI: Cek suhu harian
+    alt Suhu belum ada
         A->>+UI: Klik "Input Suhu"
         UI-->>-A: Form input
-        
-        A->>UI: Input nilai suhu
+        A->>+UI: Input nilai (-50 to 60)
         UI->>+API: POST /admin/suhu-harian
-        API->>+API: Validate: -50 to 60 range
-        API->>+DB: INSERT suhu_harian
+        API->>+DB: INSERT suhu
         DB-->>-API: suhu_id
         API-->>-UI: 201 Created
-        UI-->>-A: Notifikasi "Suhu tersimpan"
-    else Suhu SUDAH ada
-        UI-->>-A: Display: "Suhu: {value}°C"
+        UI-->>-A: Tersimpan
+    else Suhu sudah ada
+        UI-->>-A: Tampilkan nilai
     end
-    end
     
-    rect rgb(255, 200, 200)
-    note over A,Flask: STEP 3: ML PREDICTION
-    A->>+UI: Pada transaksi, klik "Prediksi"
-    UI->>+API: POST /admin/prediksi/{transaksi_id}
-    
-    API->>+DB: Query transaksi detail
-    DB-->>-API: 7 features ready
-    
-    API->>+API: Prepare payload
-    API-->>-API: Payload ready
-    
-    API->>+Flask: POST /predict (7 features)
-    Flask->>+Flask: Load SVM model
-    Flask->>Flask: Scale features
-    Flask->>Flask: model.predict()
-    Flask-->>-API: Prediction (Ada/Tidak Gangguan)
-    
-    API->>+DB: INSERT prediksi_transaksi
+    note over A,Flask: ML PREDICTION
+    A->>+UI: Klik "Prediksi"
+    UI->>+API: POST /admin/prediksi
+    API->>+DB: Query transaksi + suhu
+    DB-->>-API: Data (7 features)
+    API->>+Flask: POST /predict
+    Flask->>Flask: Load model
+    Flask->>Flask: Scale & predict
+    Flask-->>-API: Result
+    API->>+DB: INSERT prediksi
     DB-->>-API: prediksi_id
-    
     API-->>-UI: 200 OK
-    UI-->>-A: Display: Prediction Result
-    end
+    UI-->>-A: Display result
     
-    rect rgb(200, 255, 200)
-    note over A,DB: STEP 4: VIEW HISTORY
-    A->>+UI: Klik "Lihat Riwayat Prediksi"
-    UI->>+API: GET /admin/prediksi-history?bulan={month}
-    API->>+DB: Query prediksi history
+    note over A,DB: LIHAT RIWAYAT
+    A->>+UI: Klik "Riwayat Prediksi"
+    UI->>+API: GET /admin/prediksi-history
+    API->>+DB: Query history
     DB-->>-API: Predictions list
-    API-->>-UI: Predictions
-    UI-->>-A: Tampilkan tabel dengan riwayat
-    end
+    API-->>-UI: History
+    UI-->>-A: Tampilkan tabel
                     </div>
                 </div>
             </div>
