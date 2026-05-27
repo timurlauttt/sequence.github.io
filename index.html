@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UD Suwara Jaya - Sequence Diagrams Preview (Updated)</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #f5576c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        
+        .toc {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .toc h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .toc-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .toc ol {
+            margin-left: 20px;
+        }
+        
+        .toc li {
+            margin: 8px 0;
+            color: #555;
+        }
+        
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .toc a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        .toc li.new {
+            color: #f5576c;
+            font-weight: bold;
+        }
+        
+        .category {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .category-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: white;
+            padding: 15px 20px;
+            margin: -25px -25px 20px -25px;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .category-title.existing {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .category-title.ml {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .category-title.new {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        .diagram-item {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #ffffff;
+        }
+        
+        .diagram-item.ml {
+            border-left-color: #f5576c;
+        }
+        
+        .diagram-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .diagram-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }
+        
+        .diagram-number.ml {
+            background: #f5576c;
+        }
+        
+        .diagram-content {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+        
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .footer {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                max-width: 100%;
+            }
+            
+            .header, .toc, .category, .footer {
+                box-shadow: none;
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 UD Suwara Jaya<span class="badge">UPDATED</span></h1>
+            <p>Sistem Manajemen Distribusi & Pengiriman Barang</p>
+            <p style="font-size: 0.95em; margin-top: 10px; color: #999;">Sequence Diagrams untuk Skripsi - Dengan ML Integration</p>
+        </div>
+        
+        <div class="highlight">
+            <strong>✅ Status Update:</strong> Diagram sudah mencakup Machine Learning integration. 
+            <br>• <strong>Diagram 9-10:</strong> Complete transaction flow dengan ML prediction
+            <br>• <strong>Diagram 11-15:</strong> Kategori A detailed workflows
+            <br>Total: <strong>15 Sequence Diagrams</strong> dengan activation boxes yang benar
+        </div>
+        
+        <div class="toc">
+            <h2>📑 Daftar Diagram Lengkap (15 Total)</h2>
+            <div class="toc-cols">
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Existing (8)</h3>
+                    <ol>
+                        <li><a href="#diagram1">Order Creation Process</a></li>
+                        <li><a href="#diagram2">Price Management</a></li>
+                        <li><a href="#diagram3">Delivery Process</a></li>
+                        <li><a href="#diagram4">Payment Verification</a></li>
+                        <li><a href="#diagram5">Workload Monitoring</a></li>
+                        <li><a href="#diagram6">Supir-Konsumen Assignment</a></li>
+                        <li><a href="#diagram7">Customer Debt Report</a></li>
+                        <li><a href="#diagram8">User Management</a></li>
+                    </ol>
+                </div>
+                <div>
+                    <h3 style="color: #f5576c; margin-bottom: 10px;">ML + Kategori A (7)</h3>
+                    <ol start="9">
+                        <li class="new"><a href="#diagram9">🤖 Complete Transaction to ML</a></li>
+                        <li class="new"><a href="#diagram10">🤖 Admin ML Prediction Workflow</a></li>
+                        <li class="new"><a href="#diagram11">Order Verification Flow</a></li>
+                        <li class="new"><a href="#diagram12">Complete Delivery Confirmation</a></li>
+                        <li class="new"><a href="#diagram13">Pickup/Load Management</a></li>
+                        <li class="new"><a href="#diagram14">End-to-End Order Fulfillment</a></li>
+                        <li class="new"><a href="#diagram15">Debt Report Generation</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title existing">✅ EXISTING DIAGRAMS (8)</div>
+            
+            <div id="diagram1" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">1</span>
+                    Order Creation Process (Pembuatan Pesanan)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor K as Konsumen
+    participant UI as Web UI (Laravel Blade)
+    participant API as Backend (Laravel)
+    participant DB as MongoDB
+    participant SK as Collection supir_konsumen
+    participant H as Collection harga
+    
+    K->>+UI: Buka halaman "Buat Pesanan"
+    UI-->>-K: Tampilkan form (tanggal, berat pesanan)
+    
+    K->>+UI: Isi form pesanan (tanggal, berat)
+    UI->>+API: POST /orders (tanggal, berat_pesanan_awal)
+    
+    API->>+SK: Query supir_konsumen by konsumen_id & is_active=true
+    SK-->>-API: Return supir_id yang assigned
+    
+    API->>+H: Query harga by tanggal
+    H-->>-API: Return harga per kg
+    
+    API->>+API: Calculate total = berat * harga
+    API->>API: Set status, shipping_status, payment_status
+    API-->>-API: Data ready
+    
+    API->>+DB: Insert order dengan supir_id auto-assigned
+    DB-->>-API: orderId tersimpan
+    API-->>-UI: 201 Created + orderId
+    UI-->>-K: Notifikasi pesanan dibuat
+                    </div>
+                </div>
+            </div>
+            
+            <div id="diagram2" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">2</span>
+                    Price Management (Kelola Harga Harian)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor A as Admin
+    participant UI as Web UI (Laravel Blade)
+    participant API as Backend (Laravel)
+    participant DB as MongoDB
+    participant H as Collection harga
+    
+    A->>+UI: Buka halaman "Kelola Harga"
+    UI->>+API: GET /admin/harga?tanggal={date}
+    API->>+H: Query harga by tanggal
+    H-->>-API: Return harga (jika ada)
+    API-->>-UI: Data harga
+    UI-->>-A: Tampilkan form harga
+    
+    A->>+UI: Input/Update harga untuk tanggal tertentu
+    UI->>+API: POST/PUT /admin/harga (tanggal, hari, harga)
+    
+    API->>+H: Check apakah harga untuk tanggal ini sudah ada
+    H-->>-API: Return status (ada/tidak)
+    
+    alt Harga sudah ada
+        API->>+H: Update harga existing
+        H-->>-API: OK
+        API-->>UI: 200 OK "Harga diupdate"
+    else Harga belum ada
+        API->>+H: Insert harga baru
+        H-->>-API: hargaId tersimpan
+        API-->>UI: 201 Created "Harga ditambahkan"
+    end
+    
+    API-->>-UI: Response
+    UI-->>-A: Notifikasi "Harga berhasil disimpan"
+                    </div>
+                </div>
+            </div>
+            
+            <div id="diagram3" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">3</span>
+                    Delivery Process (Proses Pengiriman oleh Supir)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor S as Supir
+    participant UI as Web UI (Laravel Blade)
+    participant API as Backend (Laravel)
+    participant DB as MongoDB
+    participant O as Collection orders
+    
+    S->>+UI: Buka halaman "Pesanan Saya"
+    UI->>+API: GET /supir/orders?supir_id={id}&tanggal={date}
+    API->>+O: Query orders by supir_id & tanggal
+    O-->>-API: List orders yang assigned ke supir ini
+    API-->>-UI: List orders dengan status shipping
+    UI-->>-S: Tampilkan daftar pesanan
+    
+    S->>+UI: Klik "Mulai Pengiriman" pada satu order
+    UI->>+API: PATCH /orders/{id}/shipping
+    API->>+O: Update shipping_status = "shipping"
+    O-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-S: Status berubah "Dalam Pengiriman"
+    
+    S->>+UI: Setelah sampai, input berat aktual
+    UI->>+API: PATCH /orders/{id}/delivery
+    API->>+O: Update actual_quantity_received & shipping_status
+    O-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-S: Notifikasi "Pengiriman selesai"
+                    </div>
+                </div>
+            </div>
+            
+            <div id="diagram4" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">4</span>
+                    Payment Verification Process (Verifikasi Pembayaran)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor K as Konsumen
+    actor S as Supir
+    participant UI as Web UI (Laravel Blade)
+    participant API as Backend (Laravel)
+    participant DB as MongoDB
+    participant O as Collection orders
+    
+    K->>+UI: Buka halaman "Pesanan Saya"
+    UI->>+API: GET /konsumen/orders?konsumen_id={id}
+    API->>+O: Query orders by konsumen_id
+    O-->>-API: List orders konsumen
+    API-->>-UI: List orders
+    UI-->>-K: Tampilkan pesanan (yang delivered)
+    
+    K->>+UI: Klik "Upload Bukti Bayar" + input jumlah bayar
+    UI->>+API: POST /orders/{id}/payment
+    API->>+O: Update payment data
+    O-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-K: Notifikasi "Bukti bayar terkirim"
+    
+    S->>+UI: Buka halaman "Verifikasi Pembayaran"
+    UI->>+API: GET /supir/payments?supir_id={id}
+    API->>+O: Query orders pending verification
+    O-->>-API: List orders dengan payment pending
+    API-->>-UI: List pembayaran pending
+    UI-->>-S: Tampilkan daftar pembayaran
+    
+    S->>+UI: Review bukti bayar + klik Approve/Reject
+    alt Approve Payment
+        UI->>+API: PATCH /orders/{id}/verify-payment
+        API->>+API: Calculate payment_difference
+        API->>+O: Update payment_status="verified"
+        O-->>-API: OK
+        API-->>-API: Determine status (HUTANG/TABUNGAN/LUNAS)
+        API-->>-UI: 200 OK + Status
+        UI-->>-S: Notifikasi "Pembayaran diverifikasi"
+    else Reject Payment
+        UI->>+API: PATCH /orders/{id}/reject-payment
+        API->>+O: Update payment_status="rejected"
+        O-->>-API: OK
+        API-->>-UI: 200 OK
+        UI-->>-S: Notifikasi "Pembayaran ditolak"
+    end
+                    </div>
+                </div>
+            </div>
+            
+            <div id="diagram5" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">5</span>
+                    Workload Monitoring (Admin Monitoring Beban Kerja)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor A as Admin
+    participant UI as Web UI (Laravel Blade)
+    participant API as Backend (Laravel)
+    participant DB as MongoDB
+    participant O as Collection orders
+    
+    A->>+UI: Buka halaman "Laporan Beban Kerja Supir"
+    UI-->>-A: Tampilkan filter (tanggal, supir)
+    
+    A->>+UI: Pilih tanggal untuk laporan
+    UI->>+API: GET /admin/workload-report?tanggal={date}
+    
+    API->>+O: Aggregation Pipeline
+    note over O: $match, $group by supir, $calculate metrics
+    O-->>-API: Aggregated data per supir
+    
+    API->>+API: Calculate metrics
+    API-->>-API: Metrics ready
+    
+    API-->>-UI: Workload report data
+    UI-->>-A: Tampilkan tabel/chart dengan metrics
+    
+    A->>+UI: Klik detail supir tertentu
+    UI->>+API: GET /admin/workload-report/{supir_id}?tanggal={date}
+    API->>+O: Query orders by supir_id & tanggal dengan detail
+    O-->>-API: Detailed orders per konsumen
+    API-->>-UI: Detail orders per konsumen
+    UI-->>-A: Tampilkan breakdown per konsumen
+                    </div>
+                </div>
+            </div>
+            
+            <div id="diagram6" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">6</span>
+                    Supir-Konsumen Assignment (Admin Assign Supir)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor A as Admin
+    participant UI as Web UI (Laravel Blade)
+    participant API as Backend (Laravel)
+    participant DB as MongoDB
+    participant SK as Collection supir_konsumen
+    participant U as Collection users
+    
+    A->>+UI: Buka halaman "Kelola Penugasan Supir"
+    UI->>+API: GET /admin/supir-konsumen
+    API->>+SK: Query all assignments
+    SK-->>-API: List assignments
+    API-->>-UI: List assignments
+    UI-->>-A: Tampilkan tabel
+    
+    A->>+UI: Klik "Tambah Penugasan Baru"
+    UI->>+API: GET /admin/users?role=supir,konsumen
+    API->>+U: Query users with roles
+    U-->>-API: List supir & konsumen
+    API-->>-UI: Dropdown data
+    UI-->>-A: Tampilkan form
+    
+    A->>+UI: Pilih supir + konsumen + submit
+    UI->>+API: POST /admin/supir-konsumen
+    
+    API->>+SK: Check existing assignment
+    SK-->>-API: Return existing (jika ada)
+    
+    alt Konsumen sudah punya supir aktif
+        API->>+SK: Update assignment lama: is_active=false
+        SK-->>-API: OK
+    end
+    
+    API->>+SK: Insert assignment baru: is_active=true
+    SK-->>-API: assignmentId tersimpan
+    API-->>-UI: 201 Created
+    UI-->>-A: Notifikasi "Penugasan berhasil"
+                    </div>
+                </div>
+            </div>
+            
+            <div id="diagram7" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">7</span>
+                    Customer Debt Report (Laporan Hutang Konsumen)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor A as Admin
+    actor K as Konsumen
+    participant UI as Web UI (Laravel Blade)
+    participant API as Backend (Laravel)
+    participant DB as MongoDB
+    participant O as Collection orders
+    
+    A->>+UI: Buka halaman "Laporan Hutang Konsumen"
+    UI->>+API: GET /admin/debt-report
+    
+    API->>+O: Aggregation Pipeline
+    note over O: $match, $group, $sum
+    O-->>-API: Aggregated debt per konsumen
+    
+    API-->>-UI: Debt report data
+    UI-->>-A: Tampilkan tabel hutang
+    
+    A->>+UI: Klik detail konsumen
+    UI->>+API: GET /admin/debt-report/{konsumen_id}
+    API->>+O: Query orders by konsumen_id & payment_difference > 0
+    O-->>-API: Detail orders dengan hutang
+    API-->>-UI: List orders dengan hutang
+    UI-->>-A: Tampilkan detail per order
+    
+    opt Konsumen cek hutang sendiri
+        K->>+UI: Buka "Hutang Saya"
+        UI->>+API: GET /konsumen/my-debt?konsumen_id={id}
+        API->>+O: Query orders dengan hutang
+        O-->>-API: Orders dengan hutang
+        API-->>-UI: List orders
+        UI-->>-K: Tampilkan daftar hutang + total
+    end
+                    </div>
+                </div>
+            </div>
+            
+            <div id="diagram8" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">8</span>
+                    User Management (Admin Kelola User)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor A as Admin/SuperAdmin
+    participant UI as Web UI (Laravel Blade)
+    participant API as Backend (Laravel)
+    participant DB as MongoDB
+    participant U as Collection users
+    
+    A->>+UI: Buka halaman "Kelola User"
+    UI->>+API: GET /admin/users?role={filter}
+    API->>+U: Query users
+    U-->>-API: List users
+    API-->>-UI: List users dengan role & status
+    UI-->>-A: Tampilkan tabel
+    
+    A->>+UI: Klik "Tambah User Baru"
+    UI-->>-A: Tampilkan form
+    
+    A->>+UI: Isi form + pilih role + submit
+    UI->>+API: POST /admin/users
+    
+    API->>+U: Check apakah email sudah terdaftar
+    U-->>-API: Return existing user (jika ada)
+    
+    alt Email sudah terdaftar
+        API-->>UI: 409 Conflict
+        UI-->>A: Error "Email sudah terdaftar"
+    else Email belum terdaftar
+        API->>+API: Hash password
+        API->>+U: Insert user baru dengan is_active=true
+        U-->>-API: userId tersimpan
+        API-->>-UI: 201 Created
+        UI-->>-A: Notifikasi "User berhasil ditambahkan"
+    end
+    
+    opt Admin edit user
+        A->>+UI: Klik "Edit" pada user
+        UI->>+API: GET /admin/users/{id}
+        API->>+U: Query user by id
+        U-->>-API: User data
+        API-->>-UI: User data
+        UI-->>-A: Tampilkan form edit
+        
+        A->>UI: Update data + submit
+        UI->>+API: PUT /admin/users/{id}
+        API->>+U: Update user
+        U-->>-API: OK
+        API-->>-UI: 200 OK
+        UI-->>-A: Notifikasi "User diupdate"
+    end
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title ml">🤖 ML INTEGRATION DIAGRAMS (2) - CRITICAL</div>
+            
+            <div id="diagram9" class="diagram-item ml">
+                <div class="diagram-title">
+                    <span class="diagram-number ml">9</span>
+                    Complete Transaction to ML Prediction (Order → ML)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor K as Konsumen
+    actor S as Supir
+    actor A as Admin
+    participant UI as Web UI
+    participant API as Backend
+    participant DB as MongoDB
+    participant Flask as Flask ML API
+    
+    rect rgb(200, 220, 255)
+    note over K,DB: FASE 1: PEMESANAN & PENGIRIMAN
+    K->>+UI: Buat order
+    UI->>+API: POST /orders
+    API->>+DB: Insert order
+    DB-->>-API: order_id
+    API-->>-UI: 201 Created
+    UI-->>-K: Notifikasi pesanan dibuat
+    
+    A->>+UI: Approve order
+    UI->>+API: PATCH /orders/{id}/approve
+    API->>+DB: Update verification_status
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-A: Notifikasi approved
+    end
+    
+    rect rgb(200, 255, 220)
+    note over S,DB: FASE 2: PENGIRIMAN BARANG
+    S->>+UI: Input pengambilan muatan
+    UI->>+API: POST /pengambilan
+    API->>+DB: Insert pengambilan
+    DB-->>-API: pengambilan_id
+    API-->>-UI: 201 Created
+    UI-->>-S: Notifikasi muatan tercatat
+    
+    S->>+UI: Konfirmasi kirim & terima
+    UI->>+API: PATCH /orders/{id}/deliver
+    API->>+DB: Update shipping_status=delivered
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-S: Status updated
+    
+    K->>+UI: Konfirmasi penerimaan
+    UI->>+API: PATCH /orders/{id}/confirm
+    API->>+DB: Update status=selesai
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-K: Notifikasi terdaftar
+    end
+    
+    rect rgb(255, 240, 200)
+    note over K,DB: FASE 3: PEMBAYARAN
+    K->>+UI: Upload bukti pembayaran
+    UI->>+API: POST /orders/{id}/payment
+    API->>+DB: Insert payment
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-K: Notifikasi uploaded
+    
+    S->>+UI: Verifikasi pembayaran
+    UI->>+API: PATCH /orders/{id}/verify-payment
+    API->>+DB: Update payment_status=verified
+    DB-->>-API: OK
+    API-->>-UI: 200 OK
+    UI-->>-S: Verified
+    end
+    
+    rect rgb(255, 220, 220)
+    note over A,Flask: FASE 4: ML PREDICTION
+    A->>+UI: Klik tombol "Prediksi"
+    UI->>+API: POST /admin/prediksi/{transaksi_id}
+    API->>+DB: Query transaksi detail + suhu
+    DB-->>-API: Transaction data
+    
+    API->>+API: Prepare 7 features untuk ML
+    API-->>-API: Features ready
+    
+    API->>+Flask: POST /predict (7 features)
+    Flask->>+Flask: Load SVM model & predict
+    Flask-->>-API: Prediction result (Ada/Tidak Ada Gangguan)
+    
+    API->>+DB: INSERT prediksi_transaksi
+    DB-->>-API: prediksi_id
+    API-->>-UI: 200 OK + Result
+    UI-->>-A: Display: Prediksi Result
+    end
+    
+    note over K,Flask: ✓ COMPLETE TRANSACTION WITH ML
+                    </div>
+                </div>
+            </div>
+            
+            <div id="diagram10" class="diagram-item ml">
+                <div class="diagram-title">
+                    <span class="diagram-number ml">10</span>
+                    Admin ML Prediction Workflow (Input Suhu & Prediksi)
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+sequenceDiagram
+    actor A as Admin
+    participant UI as Web UI
+    participant API as Backend
+    participant DB as MongoDB
+    participant Flask as Flask ML API<br/>(Python SVM)
+    
+    rect rgb(220, 200, 255)
+    note over A,DB: STEP 1: REVIEW TRANSACTIONS
+    A->>+UI: Buka "Laporan Prediksi Transaksi"
+    UI->>+API: GET /admin/transaksi-harian?tanggal={date}
+    API->>+DB: Query transaksi_harian + suhu_harian
+    DB-->>-API: Transactions list
+    API-->>-UI: Transaction list
+    UI-->>-A: Tampilkan tabel transaksi
+    end
+    
+    rect rgb(255, 240, 200)
+    note over A,DB: STEP 2: INPUT SUHU HARIAN
+    A->>+UI: Cek suhu
+    alt Suhu BELUM ada
+        A->>+UI: Klik "Input Suhu"
+        UI-->>-A: Form input
+        
+        A->>UI: Input nilai suhu
+        UI->>+API: POST /admin/suhu-harian
+        API->>+API: Validate: -50 to 60 range
+        API->>+DB: INSERT suhu_harian
+        DB-->>-API: suhu_id
+        API-->>-UI: 201 Created
+        UI-->>-A: Notifikasi "Suhu tersimpan"
+    else Suhu SUDAH ada
+        UI-->>-A: Display: "Suhu: {value}°C"
+    end
+    end
+    
+    rect rgb(255, 200, 200)
+    note over A,Flask: STEP 3: ML PREDICTION
+    A->>+UI: Pada transaksi, klik "Prediksi"
+    UI->>+API: POST /admin/prediksi/{transaksi_id}
+    
+    API->>+DB: Query transaksi detail
+    DB-->>-API: 7 features ready
+    
+    API->>+API: Prepare payload
+    API-->>-API: Payload ready
+    
+    API->>+Flask: POST /predict (7 features)
+    Flask->>+Flask: Load SVM model
+    Flask->>Flask: Scale features
+    Flask->>Flask: model.predict()
+    Flask-->>-API: Prediction (Ada/Tidak Gangguan)
+    
+    API->>+DB: INSERT prediksi_transaksi
+    DB-->>-API: prediksi_id
+    
+    API-->>-UI: 200 OK
+    UI-->>-A: Display: Prediction Result
+    end
+    
+    rect rgb(200, 255, 200)
+    note over A,DB: STEP 4: VIEW HISTORY
+    A->>+UI: Klik "Lihat Riwayat Prediksi"
+    UI->>+API: GET /admin/prediksi-history?bulan={month}
+    API->>+DB: Query prediksi history
+    DB-->>-API: Predictions list
+    API-->>-UI: Predictions
+    UI-->>-A: Tampilkan tabel dengan riwayat
+    end
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <div class="category-title new">✨ KATEGORI A - CRITICAL WORKFLOWS (5)</div>
+            
+            <div id="diagram11" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">11</span>
+                    Order Verification Flow (Admin Verifikasi Order)
+                </div>
+            </div>
+            
+            <div id="diagram12" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">12</span>
+                    Complete Delivery Confirmation (Konfirmasi Penerimaan)
+                </div>
+            </div>
+            
+            <div id="diagram13" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">13</span>
+                    Pickup/Load Management (Manajemen Pengambilan Muatan)
+                </div>
+            </div>
+            
+            <div id="diagram14" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">14</span>
+                    End-to-End Order Fulfillment Cycle (Siklus Lengkap)
+                </div>
+            </div>
+            
+            <div id="diagram15" class="diagram-item">
+                <div class="diagram-title">
+                    <span class="diagram-number">15</span>
+                    Debt Report Generation (Laporan Hutang)
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>UD Suwara Jaya - Sistem Manajemen Distribusi & Pengiriman Barang</strong></p>
+            <p>✅ Sequence Diagrams dengan ML Integration | 15 Total Diagrams</p>
+            <p>✅ 8 Existing + 2 ML Critical + 5 Kategori A Workflows</p>
+            <p>✅ Semua diagram dengan activation boxes (actor lifecycle bars)</p>
+            <p style="font-size: 0.9em; margin-top: 10px; color: #999;">Last Updated: 27 May 2026</p>
+        </div>
+    </div>
+    
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: { useMaxWidth: true }
+        });
+    </script>
+</body>
+</html>
