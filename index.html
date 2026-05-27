@@ -223,9 +223,58 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 UD Suwara Jaya<span class="badge">UPDATED</span></h1>
-            <p>Sistem Manajemen Distribusi & Pengiriman Barang</p>
-            <p style="font-size: 0.95em; margin-top: 10px; color: #999;">Sequence Diagrams untuk Skripsi - Dengan ML Integration</p>
+            <h1>Sequence Diagram UD Suwara Jaya</h1>
+        </div>
+        
+        <div class="toc">
+            <h2>🎨 Legenda & Panduan Membaca</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">🎯 Elemen Diagram</h3>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <p style="margin: 8px 0;"><strong>👤 Actor (Aktor)</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Pengguna sistem (Konsumen, Supir, Admin)</span></p>
+                        
+                        <p style="margin: 8px 0;"><strong>🔄 Aktivasi (Activation Box)</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Periode partisipan sedang aktif (garis vertikal)</span></p>
+                        
+                        <p style="margin: 8px 0;"><strong>📨 Message</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Komunikasi antar partisipan (panah solid/putus)</span></p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">✏️ Tipe Interaksi</h3>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <p style="margin: 8px 0;"><strong>→ Solid Arrow</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Synchronous call (menunggu respon)</span></p>
+                        
+                        <p style="margin: 8px 0;"><strong>⇢ Dashed Arrow</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Response/Return (balasan dari call)</span></p>
+                        
+                        <p style="margin: 8px 0;"><strong>+ Activation</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;"><code>participant->>+</code> = start, <code>-->>-</code> = end</span></p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">🔲 Kontrol Flow</h3>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <p style="margin: 8px 0;"><strong>alt ... else</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Conditional logic (jika/maka/atau)</span></p>
+                        
+                        <p style="margin: 8px 0;"><strong>opt</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Optional flow (opsional, mungkin terjadi)</span></p>
+                        
+                        <p style="margin: 8px 0;"><strong>rect / note</strong><br/>
+                        <span style="color: #666; font-size: 0.9em;">Pengelompokan steps dengan label</span></p>
+                    </div>
+                </div>
+            </div>
+            <div style="background: #e8f4f8; padding: 15px; border-left: 4px solid #0ea5e9; margin-top: 15px; border-radius: 4px;">
+                <strong>💡 Tips Membaca:</strong> Diagram dibaca dari atas ke bawah. Garis vertikal menunjukkan waktu yang berlalu. Setiap panah adalah satu interaksi/message antar partisipan.
+            </div>
         </div>
         
         <div class="toc">
@@ -1146,14 +1195,6 @@ sequenceDiagram
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="footer">
-            <p><strong>UD Suwara Jaya - Sistem Manajemen Distribusi & Pengiriman Barang</strong></p>
-            <p>✅ Sequence Diagrams dengan ML Integration | 15 Total Diagrams</p>
-            <p>✅ 8 Existing + 2 ML Critical + 5 Kategori A Workflows</p>
-            <p>✅ Semua diagram dengan activation boxes (actor lifecycle bars)</p>
-            <p style="font-size: 0.9em; margin-top: 10px; color: #999;">Last Updated: 27 May 2026</p>
         </div>
     </div>
     
