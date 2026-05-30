@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UD Suwara Jaya - Complete Sequence Diagrams (42)</title>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * {
             margin: 0;
@@ -156,7 +157,6 @@
             margin-bottom: 40px;
             padding: 20px;
             background: #ffffff;
-            border-left: 5px solid #667eea;
         }
         
         .diagram-item.ml {
@@ -210,6 +210,36 @@
         .mermaid {
             display: flex;
             justify-content: center;
+        }
+        
+        .diagram-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-download {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6);
+        }
+        
+        .btn-download:active {
+            transform: scale(0.98);
         }
         
         .footer {
@@ -405,6 +435,9 @@ sequenceDiagram
     UI-->>-K: Notifikasi pesanan dibuat
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(1)">⬇ Download SVG</button>
+                </div>
             </div>
             
             <div id="diagram2" class="diagram-item">
@@ -448,6 +481,10 @@ sequenceDiagram
     UI-->>-A: Notifikasi "Harga berhasil disimpan"
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(2)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram3" class="diagram-item">
@@ -486,6 +523,10 @@ sequenceDiagram
     UI-->>-S: Notifikasi "Pengiriman selesai"
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(3)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram4" class="diagram-item">
@@ -540,6 +581,10 @@ sequenceDiagram
     end
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(4)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram5" class="diagram-item">
@@ -580,6 +625,10 @@ sequenceDiagram
     UI-->>-A: Tampilkan breakdown per konsumen
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(5)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram6" class="diagram-item">
@@ -628,6 +677,10 @@ sequenceDiagram
     UI-->>-A: Notifikasi "Penugasan berhasil"
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(6)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram7" class="diagram-item">
@@ -672,6 +725,10 @@ sequenceDiagram
     end
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(7)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram8" class="diagram-item">
@@ -726,7 +783,11 @@ sequenceDiagram
     UI-->>-A: User updated
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(8)">⬇ Download SVG</button>
+                </div>
+                  </div>
         </div>
         
         <!-- ML INTEGRATION DIAGRAMS (9-10) -->
@@ -830,7 +891,11 @@ sequenceDiagram
     note over K,Flask: ✓ COMPLETE TRANSACTION WITH ML
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(9)">⬇ Download SVG</button>
+                </div>
+                  </div>
             
             <div id="diagram10" class="diagram-item ml">
                 <div class="diagram-title">
@@ -892,7 +957,11 @@ sequenceDiagram
     UI-->>-A: Tampilkan tabel
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(10)">⬇ Download SVG</button>
+                </div>
+                  </div>
         </div>
         
         <!-- KATEGORI A DIAGRAMS (11-15) -->
@@ -951,6 +1020,10 @@ sequenceDiagram
     API->>K: Notification
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(11)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram12" class="diagram-item">
@@ -1013,6 +1086,10 @@ sequenceDiagram
     UI-->>-K: "Diterima"
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(12)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram13" class="diagram-item">
@@ -1088,6 +1165,10 @@ sequenceDiagram
     UI-->>-A: Tampilkan
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(13)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram14" class="diagram-item">
@@ -1175,6 +1256,10 @@ sequenceDiagram
     UI-->>-A: "Selesai"
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(14)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram15" class="diagram-item">
@@ -1251,7 +1336,11 @@ sequenceDiagram
     UI-->>-A: Downloaded
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(15)">⬇ Download SVG</button>
+                </div>
+                  </div>
         </div>
         
         <!-- LOW PRIORITY DIAGRAMS (16-20) -->
@@ -1291,6 +1380,9 @@ sequenceDiagram
         UI-->>-U: Error message
     end
                     </div>
+                </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(16)">⬇ Download SVG</button>
                 </div>
             </div>
             
@@ -1333,6 +1425,9 @@ sequenceDiagram
         UI-->>-U: "Password changed successfully"
     end
                     </div>
+                </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(17)">⬇ Download SVG</button>
                 </div>
             </div>
             
@@ -1380,6 +1475,9 @@ sequenceDiagram
     UI-->>-U: Redirect ke login page
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(18)">⬇ Download SVG</button>
+                </div>
             </div>
             
             <div id="diagram19" class="diagram-item">
@@ -1418,6 +1516,10 @@ sequenceDiagram
     end
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(19)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram20" class="diagram-item">
@@ -1493,7 +1595,11 @@ sequenceDiagram
     end
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(20)">⬇ Download SVG</button>
+                </div>
+                  </div>
         </div>
         
         <!-- MEDIUM PRIORITY DIAGRAMS (21-27) -->
@@ -1544,6 +1650,10 @@ sequenceDiagram
     UI-->>-A: Display widgets (Total Orders, Revenue, Pending, etc)
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(21)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram22" class="diagram-item">
@@ -1582,6 +1692,10 @@ sequenceDiagram
     UI-->>-K: Display (My Orders, Debt, Savings, Recent Activity)
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(22)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram23" class="diagram-item">
@@ -1619,6 +1733,10 @@ sequenceDiagram
     UI-->>-S: Display (Today Orders, Pending Payments, Workload, Earnings)
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(23)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram24" class="diagram-item">
@@ -1660,6 +1778,10 @@ sequenceDiagram
     UI-->>-A: Display report with charts/tables
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(24)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram25" class="diagram-item">
@@ -1698,6 +1820,10 @@ sequenceDiagram
     UI-->>-U: Display filtered results
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(25)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram26" class="diagram-item">
@@ -1742,6 +1868,10 @@ sequenceDiagram
     U->>File: Download file
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(26)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram27" class="diagram-item">
@@ -1798,7 +1928,11 @@ sequenceDiagram
     end
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(27)">⬇ Download SVG</button>
+                </div>
+                  </div>
         </div>
         
         <!-- HIGH PRIORITY DIAGRAMS (28-32) -->
@@ -1844,6 +1978,10 @@ sequenceDiagram
     UI-->>-S: Download workload report
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(28)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram29" class="diagram-item">
@@ -1887,6 +2025,10 @@ sequenceDiagram
     UI-->>-S: Display detail modal
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(29)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram30" class="diagram-item">
@@ -1939,6 +2081,10 @@ sequenceDiagram
     UI-->>-A: Provide download link
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(30)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram31" class="diagram-item">
@@ -1998,6 +2144,10 @@ sequenceDiagram
     end
                     </div>
                 </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(31)">⬇ Download SVG</button>
+                </div>
+            
             </div>
             
             <div id="diagram32" class="diagram-item">
@@ -2064,7 +2214,11 @@ sequenceDiagram
     UI-->>-K: Show status (Approved/Rejected)
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(32)">⬇ Download SVG</button>
+                </div>
+                  </div>
         </div>
         
         <!-- CRITICAL DIAGRAMS (33-42) -->
@@ -2127,7 +2281,11 @@ sequenceDiagram
     UI-->>-A: Download data
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(33)">⬇ Download SVG</button>
+                </div>
+                  </div>
             
             <div id="diagram34" class="diagram-item critical">
                 <div class="diagram-title">
@@ -2211,7 +2369,11 @@ sequenceDiagram
     UI-->>-A: Display tabel historis
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(34)">⬇ Download SVG</button>
+                </div>
+                  </div>
             
             <div id="diagram35" class="diagram-item critical">
                 <div class="diagram-title">
@@ -2275,6 +2437,9 @@ sequenceDiagram
         end
     end
                     </div>
+                </div>
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(35)">⬇ Download SVG</button>
                 </div>
             </div>
             
@@ -2358,7 +2523,9 @@ sequenceDiagram
     end
                     </div>
                 </div>
-            </div>
+
+                </div>
+                  </div>
             
             <div id="diagram37" class="diagram-item critical">
                 <div class="diagram-title">
@@ -2430,7 +2597,11 @@ sequenceDiagram
     UI-->>-A: "Harga updated"
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(37)">⬇ Download SVG</button>
+                </div>
+                  </div>
             
             <div id="diagram38" class="diagram-item critical">
                 <div class="diagram-title">
@@ -2479,7 +2650,11 @@ sequenceDiagram
     UI-->>-A: File downloaded
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(38)">⬇ Download SVG</button>
+                </div>
+                  </div>
             
             <div id="diagram39" class="diagram-item critical">
                 <div class="diagram-title">
@@ -2540,7 +2715,11 @@ sequenceDiagram
     end
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(39)">⬇ Download SVG</button>
+                </div>
+                  </div>
             
             <div id="diagram40" class="diagram-item critical">
                 <div class="diagram-title">
@@ -2578,7 +2757,11 @@ sequenceDiagram
     UI-->>-K: Show: Total Harga, Payment Amount, Difference, Status, Tanggal
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(40)">⬇ Download SVG</button>
+                </div>
+                  </div>
             
             <div id="diagram41" class="diagram-item critical">
                 <div class="diagram-title">
@@ -2632,7 +2815,11 @@ sequenceDiagram
     end
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(41)">⬇ Download SVG</button>
+                </div>
+                  </div>
             
             <div id="diagram42" class="diagram-item critical">
                 <div class="diagram-title">
@@ -2693,7 +2880,11 @@ sequenceDiagram
     UI-->>-S: Download file
                     </div>
                 </div>
-            </div>
+      
+                <div class="diagram-actions">
+                    <button class="btn-download" onclick="downloadSVG(42)">⬇ Download SVG</button>
+                </div>
+                  </div>
         </div>
         
         <div class="footer">
@@ -2714,6 +2905,70 @@ sequenceDiagram
             securityLevel: 'loose',
             flowchart: { useMaxWidth: true }
         });
+
+        // Function untuk download SVG dari diagram tertentu
+        function downloadSVG(diagramNumber) {
+            setTimeout(() => {
+                // Cari diagram element berdasarkan ID
+                const diagramElement = document.getElementById('diagram' + diagramNumber);
+                if (!diagramElement) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Diagram tidak ditemukan.',
+                        confirmButtonColor: '#667eea'
+                    });
+                    return;
+                }
+
+                // Cari SVG element dalam diagram
+                const svgElement = diagramElement.querySelector('svg');
+                if (!svgElement) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Warning',
+                        text: 'SVG belum selesai di-render. Silakan tunggu sebentar.',
+                        confirmButtonColor: '#667eea'
+                    });
+                    return;
+                }
+
+                // Clone SVG element
+                const svgClone = svgElement.cloneNode(true);
+                
+                // Serialize ke string dengan XML declaration
+                const svgString = new XMLSerializer().serializeToString(svgClone);
+                const svgWithDeclaration = '<?xml version="1.0" encoding="UTF-8"?>\n' + svgString;
+                
+                // Buat blob
+                const blob = new Blob([svgWithDeclaration], { type: 'image/svg+xml' });
+                
+                // Buat download link
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `diagram_${String(diagramNumber).padStart(2, '0')}.svg`;
+                
+                // Trigger download
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Cleanup
+                URL.revokeObjectURL(url);
+                
+                // Tampilkan SweetAlert success notification
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Download Berhasil!',
+                    text: 'diagram_' + String(diagramNumber).padStart(2, '0') + '.svg',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    confirmButtonColor: '#667eea',
+                    showConfirmButton: false
+                });
+            }, 500);
+        }
     </script>
 </body>
 </html>
